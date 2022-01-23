@@ -2,20 +2,20 @@ package my.expense.calcuator.event.application;
 
 import lombok.AllArgsConstructor;
 import my.expense.calcuator.event.application.port.MeetingEventUseCase;
+import my.expense.calcuator.event.db.MeetingEventJpaRepository;
 import my.expense.calcuator.event.domain.MeetingEvent;
-import my.expense.calcuator.event.domain.MeetingEventRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class MetingEventService implements MeetingEventUseCase {
 
-    private final MeetingEventRepository repository;
+    private final MeetingEventJpaRepository repository;
 
     @Override
     public List<MeetingEvent> getAll() {
@@ -24,22 +24,12 @@ public class MetingEventService implements MeetingEventUseCase {
 
     @Override
     public List<MeetingEvent> findByName(String name) {
-        List<MeetingEvent> events = repository.findAll();
-        return events.stream()
-                .filter(event ->
-                        StringUtils.startsWithIgnoreCase(event.getName(), name)
-                )
-                .collect(Collectors.toList());
+        return repository.findByNameStartsWithIgnoreCase(name);
     }
 
     @Override
     public List<MeetingEvent> findByLocation(String location) {
-        return repository.findAll()
-                .stream()
-                .filter(event ->
-                        StringUtils.startsWithIgnoreCase(event.getLocation(), location)
-                )
-                .collect(Collectors.toList());
+        return repository.findByLocationStartsWithIgnoreCase(location);
     }
 
     @Override
@@ -49,35 +39,50 @@ public class MetingEventService implements MeetingEventUseCase {
 
     @Override
     public List<MeetingEvent> findByNameAndLocation(String name, String location) {
-        return repository.findAll()
-                .stream()
-                .filter(event ->
-                        StringUtils.startsWithIgnoreCase(event.getName(), name)
-                                && StringUtils.startsWithIgnoreCase(event.getLocation(), location)
-                )
-                .collect(Collectors.toList());
+        return repository.findByNameAndLocation(name, location);
     }
 
     @Override
+    @Transactional
     public MeetingEvent addMeetingEvent(CreateMeetingEventCommand command) {
-        MeetingEvent meetingEvent = toMeetingEvent(command);
+        var meetingEvent = toMeetingEvent(command);
         return repository.save(meetingEvent);
     }
 
     private MeetingEvent toMeetingEvent(CreateMeetingEventCommand command) {
-        MeetingEvent meetingEvent = MeetingEvent.builder()
+        var meetingEvent = MeetingEvent.builder()
                 .name(command.getName())
                 .location(command.getLocation())
                 .build();
         return meetingEvent;
     }
 
+    @Transactional
     @Override
-    public void updateMeetingEvent(MeetingEvent meetingEvent) {
+    public UpdateMeetingEventResponse updateMeetingEvent(UpdateMeetingEventCommand command) {
+        return repository.findById(command.getId())
+                .map(meetingEvent -> {
+                    var updateEvent = updateFields(command, meetingEvent);
+                    return UpdateMeetingEventResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateMeetingEventResponse(false,
+                        Collections.singletonList("Meeting event not fond with id: " + command.getId())));
+    }
+
+    private MeetingEvent updateFields(UpdateMeetingEventCommand command, MeetingEvent meetingEvent) {
+
+        if (command.getName() != null) {
+            meetingEvent.setName(command.getName());
+        }
+
+        if (command.getLocation() != null) {
+            meetingEvent.setLocation(command.getLocation());
+        }
+        return meetingEvent;
     }
 
     @Override
     public void removeById(Long id) {
-
+        repository.deleteById(id);
     }
 }

@@ -1,0 +1,31 @@
+
+GET http://localhost:8080/events
+
+###
+GET http://localhost:8080/events?name=paliwo
+
+###
+GET http://localhost:8080/events?location=Lublin&name=paliwo
+
+###
+GET http://localhost:8080/events/1
+
+###
+POST http://localhost:8080/events
+Content-Type: application/json
+
+{
+  "name": "Tenis",
+  "location": "Lublin"
+}
+
+###
+PATCH http://localhost:8080/events/4
+Content-Type: application/json
+
+{
+  "name" : "Tenis stolowy"
+}
+
+###
+DELETE http://localhost:8080/events/4

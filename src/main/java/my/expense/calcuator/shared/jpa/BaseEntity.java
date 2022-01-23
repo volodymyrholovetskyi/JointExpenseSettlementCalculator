@@ -1,4 +1,4 @@
-package my.expense.calcuator.jpa;
+package my.expense.calcuator.shared.jpa;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

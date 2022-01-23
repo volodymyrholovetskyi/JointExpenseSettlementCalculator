@@ -10,5 +10,4 @@ public class JointExpenseSettlementCalculatorApplication {
     public static void main(String[] args) {
         SpringApplication.run(JointExpenseSettlementCalculatorApplication.class, args);
     }
-
 }

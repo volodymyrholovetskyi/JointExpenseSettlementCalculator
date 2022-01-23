@@ -1,4 +1,4 @@
-package my.expense.calcuator;
+package my.expense.calcuator.shared.jpa;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
