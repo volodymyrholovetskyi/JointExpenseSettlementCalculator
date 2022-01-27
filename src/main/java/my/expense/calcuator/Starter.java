@@ -7,12 +7,15 @@ import my.expense.calcuator.event.domain.MeetingEvent;
 import my.expense.calcuator.payment.application.port.PayerUseCase;
 import my.expense.calcuator.payment.db.PayerJpaRepository;
 import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payment.domain.PayerStatus;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
+import static my.expense.calcuator.payment.application.port.PayerUseCase.*;
 
 @Component
 @AllArgsConstructor
@@ -28,12 +31,10 @@ public class Starter implements CommandLineRunner {
         addMeetingEven();
         addPayer();
 
-//
     }
 
 
     void addMeetingEven() {
-        Payer volodymyr = new Payer();
 
         CreateMeetingEventCommand event = new CreateMeetingEventCommand("Wycieczka w góry", "Wrocław", List.of());
 
@@ -59,17 +60,36 @@ public class Starter implements CommandLineRunner {
     }
 
     void addPayer() {
-        PayerUseCase.CreatePayerCommand createPayerCommand1 = new PayerUseCase.CreatePayerCommand("Volodymyr",
-                "Holovetskyi", "vova@gmail.com", 1l);
-        payerUseCase.addPayer(createPayerCommand1);
+        CreatePayerCommand volodymyr = CreatePayerCommand
+                .builder()
+                .firstName("Volodymyr")
+                .lastName("Holovetskyi")
+                .email("vova@gmail.com")
+                .eventId(1l)
+                .build();
 
-        PayerUseCase.CreatePayerCommand createPayerCommand2 = new PayerUseCase.CreatePayerCommand("Volodymyr",
-                "Holovetskyi", "volodymyr@gmail.com", 1l);
-        payerUseCase.addPayer(createPayerCommand2);
+        payerUseCase.addPayer(volodymyr);
 
-        PayerUseCase.CreatePayerCommand createPayerCommand3 = new PayerUseCase.CreatePayerCommand("Volodymyr",
-                "Holovetskyi", "holovetskyi@gmail.com", 3l);
-        payerUseCase.addPayer(createPayerCommand3);
+        CreatePayerCommand maryk = CreatePayerCommand
+                .builder()
+                .firstName("Maryk")
+                .lastName("Kyryl")
+                .email("mark@gmail.com")
+                .eventId(2l)
+                .status(PayerStatus.DURING_SETTLEMENT)
+                .build();
+
+        payerUseCase.addPayer(maryk);
+
+        CreatePayerCommand mariia = CreatePayerCommand
+                .builder()
+                .firstName("Mariia")
+                .lastName("Khort")
+                .email("mariia@gmail.com")
+                .eventId(3l)
+                .build();
+
+        payerUseCase.addPayer(mariia);
 
 //        List<Payer> payers = repository.getAllWithJoinFetch();
 

@@ -40,7 +40,13 @@ public class PayerServices implements PayerUseCase {
     }
 
     private Payer toPayer(CreatePayerCommand command){
-        Payer payer = new Payer(command.getFirstName(), command.getLastName(), command.getEmail());
+        Payer payer = Payer
+                .builder()
+                .firstName(command.getFirstName())
+                .lastName(command.getLastName())
+                .email(command.getEmail())
+                .status(command.getStatus())
+                .build();
         MeetingEvent meetingEvent = fetchMeetingEventById(command.getEventId());
         updatePayer(payer, meetingEvent);
         return payer;
