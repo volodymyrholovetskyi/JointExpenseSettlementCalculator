@@ -10,4 +10,9 @@ public interface QueryPayerUseCase {
     List<Payer> getAll();
 
     Optional<Payer> getById(Long id);
+    List<Payer> findByFirstName(String firstName);
+
+    List<Payer> findByLastName(String lastName);
+
+    List<Payer> findByFirstNameAndLastName(String firstName, String lastName);
 }

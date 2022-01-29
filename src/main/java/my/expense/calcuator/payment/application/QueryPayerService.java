@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class QueryServicePayer implements QueryPayerUseCase {
+public class QueryPayerService implements QueryPayerUseCase {
 
     private final PayerJpaRepository repository;
 
@@ -23,5 +23,20 @@ public class QueryServicePayer implements QueryPayerUseCase {
     @Override
     public Optional<Payer> getById(Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public List<Payer> findByFirstName(String firstName) {
+       return repository.findByFirstNameStartsWithIgnoreCase(firstName);
+    }
+
+    @Override
+    public List<Payer> findByLastName(String lastName) {
+        return repository.findByLastNameStartsWithIgnoreCase(lastName);
+    }
+
+    @Override
+    public List<Payer> findByFirstNameAndLastName(String firstName, String lastName) {
+        return repository.findByFistNameAndLastNameStartsWithIgnoreCase(firstName, lastName);
     }
 }

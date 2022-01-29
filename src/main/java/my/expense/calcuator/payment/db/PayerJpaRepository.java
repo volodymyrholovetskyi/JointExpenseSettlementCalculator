@@ -10,4 +10,10 @@ public interface PayerJpaRepository extends JpaRepository<Payer, Long> {
 
     @Query("SELECT DISTINCT p FROM Payer p LEFT JOIN FETCH p.event")
     List<Payer> getAllWithJoinFetch();
+
+    List<Payer> findByFirstNameStartsWithIgnoreCase(String firstName);
+
+    List<Payer> findByLastNameStartsWithIgnoreCase(String lastName);
+
+    List<Payer> findByFistNameAndLastNameStartsWithIgnoreCase(String firstName, String lastName);
 }
