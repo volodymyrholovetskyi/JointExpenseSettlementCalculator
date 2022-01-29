@@ -103,7 +103,7 @@ public class MeetingEventController {
 
 
         CreateMeetingEventCommand toCreateCommand() {
-            return new CreateMeetingEventCommand(name, location, payers);
+            return new CreateMeetingEventCommand(name, location);
         }
 
         UpdateMeetingEventCommand toUpdateCommand(Long id) {

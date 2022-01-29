@@ -37,7 +37,6 @@ public interface MeetingEventUseCase {
     class CreateMeetingEventCommand {
         String name;
         String location;
-        List<Payer> payers;
     }
 
     @Valid

@@ -36,11 +36,11 @@ public class Starter implements CommandLineRunner {
 
     void addMeetingEven() {
 
-        CreateMeetingEventCommand event = new CreateMeetingEventCommand("Wycieczka w góry", "Wrocław", List.of());
+        CreateMeetingEventCommand event = new CreateMeetingEventCommand("Wycieczka w góry", "Wrocław");
 
-        CreateMeetingEventCommand fuel = new CreateMeetingEventCommand("paliwo", "Lublin", List.of());
+        CreateMeetingEventCommand fuel = new CreateMeetingEventCommand("paliwo", "Lublin");
 
-        CreateMeetingEventCommand eat = new CreateMeetingEventCommand("Pizza", "Lublin", List.of());
+        CreateMeetingEventCommand eat = new CreateMeetingEventCommand("Pizza", "Lublin");
 
         useCase.addMeetingEvent(event);
         useCase.addMeetingEvent(fuel);

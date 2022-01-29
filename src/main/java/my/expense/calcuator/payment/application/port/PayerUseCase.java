@@ -1,5 +1,6 @@
 package my.expense.calcuator.payment.application.port;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import my.expense.calcuator.payment.domain.Payer;
@@ -14,12 +15,12 @@ public interface PayerUseCase {
 
     @Value
     @Builder
-    class CreatePayerCommand {
+    @AllArgsConstructor
+   class CreatePayerCommand {
 
-        String lastName;
         String firstName;
+        String lastName;
         String email;
         Long eventId;
-        PayerStatus status;
     }
 }
