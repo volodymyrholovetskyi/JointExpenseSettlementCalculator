@@ -20,18 +20,6 @@ public class PayerServices implements PayerUseCase {
     private final PayerJpaRepository repository;
     private final MeetingEventJpaRepository eventJpaRepository;
 
-
-    @Override
-    public List<Payer> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    @Transactional
-    public Optional<Payer> getById(Long id) {
-        return repository.findById(id);
-    }
-
     @Override
     @Transactional
     public Payer addPayer(CreatePayerCommand command) {
