@@ -62,4 +62,23 @@ public class PayerController {
         return ServletUriComponentsBuilder
                 .fromCurrentRequestUri().path("/" + payer.getId().toString()).build().toUri();
     }
+
+    @Data
+    private class RestPayerCommand {
+
+        @NotBlank(message = "Please provide a first name")
+        private String firstName;
+
+        private String lastName;
+
+        @NotBlank(message = "Please provide a name")
+        private String email;
+
+        private Long eventId;
+
+        CreatePayerCommand toCreateCommand(){
+            return new CreatePayerCommand(firstName, lastName, email, eventId);
+        }
+
+    }
 }
