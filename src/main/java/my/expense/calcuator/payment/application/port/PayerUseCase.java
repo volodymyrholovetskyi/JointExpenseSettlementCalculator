@@ -10,10 +10,6 @@ import java.util.Optional;
 
 public interface PayerUseCase {
 
-    List<Payer> getAll();
-
-    Optional<Payer> getById(Long id);
-
     Payer addPayer(CreatePayerCommand command);
 
     @Value
