@@ -5,9 +5,12 @@ import lombok.RequiredArgsConstructor;
 import my.expense.calcuator.payment.application.port.PayerUseCase;
 import my.expense.calcuator.payment.application.port.PayerUseCase.CreatePayerCommand;
 import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerCommand;
+import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerResponse;
 import my.expense.calcuator.payment.application.port.QueryPayerUseCase;
 import my.expense.calcuator.payment.domain.Payer;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.net.URI;
 import java.util.List;
@@ -55,7 +58,7 @@ public class PayerController {
     }
 
     @PostMapping()
-    ResponseEntity<Void> addPayer(@RequestBody @Valid RestPayerCommand command){
+    ResponseEntity<Void> addPayer(@Validated(CreateValidation.class) @RequestBody RestPayerCommand command) {
         var payer = payerUseCase.addPayer(command.toCreateCommand());
         return ResponseEntity.created(createdPayerUri(payer)).build();
     }
@@ -66,8 +69,12 @@ public class PayerController {
     }
 
     @PatchMapping("/{id}")
-    public void updatePayer(@PathVariable Long id, @Valid RestPayerCommand command){
-        payerUseCase.updatePayer(command.toCreateCommand(id));
+    public void updatePayer(@PathVariable Long id, @Validated({UpdateValidation.class}) @RequestBody RestPayerCommand command) {
+        UpdatePayerResponse response = payerUseCase.updatePayer(command.toUpdateCommand(id));
+        if (!response.isSuccess()) {
+            String message = String.join(", ", response.getErrors());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
     }
 
     interface UpdateValidation {
@@ -80,19 +87,19 @@ public class PayerController {
     @Data
     private class RestPayerCommand {
 
-        @NotBlank(message = "Please provide a first name")
+        @NotBlank(message = "Please provide a first name", groups = CreatePayerCommand.class)
         private String firstName;
 
         private String lastName;
 
-        @NotBlank(message = "Please provide a name")
+        @NotBlank(message = "Please provide a name", groups = CreatePayerCommand.class)
         private String email;
 
-        CreatePayerCommand toCreateCommand(){
+        CreatePayerCommand toCreateCommand() {
             return new CreatePayerCommand(firstName, lastName, email);
         }
 
-        UpdatePayerCommand toUpdateCommand(Long id){
+        UpdatePayerCommand toUpdateCommand(Long id) {
             return new UpdatePayerCommand(id, firstName, lastName, email);
         }
 
