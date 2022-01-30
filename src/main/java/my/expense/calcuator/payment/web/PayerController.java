@@ -4,10 +4,12 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import my.expense.calcuator.payment.application.port.PayerUseCase;
 import my.expense.calcuator.payment.application.port.PayerUseCase.CreatePayerCommand;
+import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerCommand;
 import my.expense.calcuator.payment.application.port.QueryPayerUseCase;
 import my.expense.calcuator.payment.domain.Payer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,6 +65,18 @@ public class PayerController {
                 .fromCurrentRequestUri().path("/" + payer.getId().toString()).build().toUri();
     }
 
+    @PatchMapping("/{id}")
+    public void updatePayer(@PathVariable Long id, @Valid RestPayerCommand command){
+        payerUseCase.updatePayer(command.toCreateCommand(id));
+    }
+
+    interface UpdateValidation {
+    }
+
+    interface CreateValidation {
+
+    }
+
     @Data
     private class RestPayerCommand {
 
@@ -74,10 +88,12 @@ public class PayerController {
         @NotBlank(message = "Please provide a name")
         private String email;
 
-        private Long eventId;
-
         CreatePayerCommand toCreateCommand(){
-            return new CreatePayerCommand(firstName, lastName, email, eventId);
+            return new CreatePayerCommand(firstName, lastName, email);
+        }
+
+        UpdatePayerCommand toUpdateCommand(Long id){
+            return new UpdatePayerCommand(id, firstName, lastName, email);
         }
 
     }

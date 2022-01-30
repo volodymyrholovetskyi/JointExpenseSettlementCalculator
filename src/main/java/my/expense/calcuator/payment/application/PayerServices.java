@@ -33,7 +33,6 @@ public class PayerServices implements PayerUseCase {
                 .firstName(command.getFirstName())
                 .lastName(command.getLastName())
                 .email(command.getEmail())
-                .status(command.getStatus())
                 .build();
         MeetingEvent meetingEvent = fetchMeetingEventById(command.getEventId());
         updatePayer(payer, meetingEvent);

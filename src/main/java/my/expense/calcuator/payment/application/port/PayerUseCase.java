@@ -6,12 +6,15 @@ import lombok.Value;
 import my.expense.calcuator.payment.domain.Payer;
 import my.expense.calcuator.payment.domain.PayerStatus;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 public interface PayerUseCase {
 
     Payer addPayer(CreatePayerCommand command);
+
+    UpdatePayerResponse updatePayer(UpdatePayerCommand command);
 
     @Value
     @Builder
@@ -23,4 +26,15 @@ public interface PayerUseCase {
         String email;
         Long eventId;
     }
+
+    @Value
+    @Builder
+    @AllArgsConstructor
+    class UpdatePayerCommand{
+        Long id;
+        String firstName;
+        String lastName;
+        String email;
+    }
+
 }
