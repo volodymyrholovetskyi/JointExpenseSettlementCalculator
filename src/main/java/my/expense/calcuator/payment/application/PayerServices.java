@@ -9,6 +9,7 @@ import my.expense.calcuator.payment.domain.Payer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,13 +40,25 @@ public class PayerServices implements PayerUseCase {
         return payer;
     }
 
-    private void updatePayer(Payer payer, MeetingEvent meetingEvent) {
-        payer.removeEvent();
-        payer.addEvent(meetingEvent);
+    public UpdatePayerResponse updatePayer(UpdatePayerCommand command){
+        return repository
+                .findById(command.getId())
+                .map(payer -> {
+                    updateFields(command, payer);
+                    return UpdatePayerResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdatePayerResponse(false,
+                        Collections.singletonList("Payer not fond with id: " + command.getId())));
     }
+
 
     private MeetingEvent fetchMeetingEventById(Long eventId) {
         Optional<MeetingEvent> meetingEvent = eventJpaRepository.findById(eventId);
         return meetingEvent.orElseThrow(() -> new IllegalArgumentException("Unable to find event with id: " + eventId));
+    }
+
+    private void updatePayer(Payer payer, MeetingEvent meetingEvent) {
+        payer.removeEvent();
+        payer.addEvent(meetingEvent);
     }
 }
