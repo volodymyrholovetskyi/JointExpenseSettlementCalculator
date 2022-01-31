@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import my.expense.calcuator.event.application.port.MeetingEventUseCase;
 import my.expense.calcuator.event.db.MeetingEventJpaRepository;
 import my.expense.calcuator.event.domain.MeetingEvent;
+import my.expense.calcuator.payment.db.PayerJpaRepository;
+import my.expense.calcuator.payment.domain.Payer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class MetingEventService implements MeetingEventUseCase {
 
     private final MeetingEventJpaRepository repository;
+    private final PayerJpaRepository payerJpaRepository;
 
     @Override
     public List<MeetingEvent> getAll() {
@@ -84,5 +87,10 @@ public class MetingEventService implements MeetingEventUseCase {
     @Override
     public void removeById(Long id) {
         repository.deleteById(id);
+    }
+
+    private Payer fetchMeetingEventById(Long eventId) {
+        Optional<Payer> payer = payerJpaRepository.findById(eventId);
+        return payer.orElseThrow(() -> new IllegalArgumentException("Unable to find event with id: " + eventId));
     }
 }

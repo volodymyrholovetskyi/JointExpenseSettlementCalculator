@@ -61,12 +61,4 @@ public class PayerServices implements PayerUseCase {
         }
         return payer;
     }
-
-//    private Payer updateFields(UpdatePayerCommand command, Payer payer) {
-//    } TODO write here code!!!
-
-    private MeetingEvent fetchMeetingEventById(Long eventId) {
-        Optional<MeetingEvent> meetingEvent = eventJpaRepository.findById(eventId);
-        return meetingEvent.orElseThrow(() -> new IllegalArgumentException("Unable to find event with id: " + eventId));
-    }
 }
