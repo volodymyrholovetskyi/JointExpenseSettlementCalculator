@@ -22,6 +22,7 @@ public interface PayerUseCase {
     @Builder
     @AllArgsConstructor
    class CreatePayerCommand {
+        Long eventId;
         String firstName;
         String lastName;
         String email;

@@ -87,6 +87,8 @@ public class PayerController {
     @Data
     private class RestPayerCommand {
 
+        private Long eventId;
+
         @NotBlank(message = "Please provide a first name", groups = CreatePayerCommand.class)
         private String firstName;
 
@@ -96,7 +98,7 @@ public class PayerController {
         private String email;
 
         CreatePayerCommand toCreateCommand() {
-            return new CreatePayerCommand(firstName, lastName, email);
+            return new CreatePayerCommand(eventId, firstName, lastName, email);
         }
 
         UpdatePayerCommand toUpdateCommand(Long id) {

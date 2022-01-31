@@ -34,7 +34,13 @@ public class PayerServices implements PayerUseCase {
                 .lastName(command.getLastName())
                 .email(command.getEmail())
                 .build();
+        toUpdate(command.getEventId(), payer);
         return payer;
+    }
+
+    private void toUpdate(Long id, Payer payer) {
+        MeetingEvent meetingEvent = fetchMeetingEventById(id);
+        payer.addEvent(meetingEvent);
     }
 
     public UpdatePayerResponse updatePayer(UpdatePayerCommand command) {
@@ -45,7 +51,6 @@ public class PayerServices implements PayerUseCase {
                     return UpdatePayerResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdatePayerResponse(false,
-
                         Collections.singletonList("Payer not fond with id: " + command.getId())));
     }
 
@@ -60,5 +65,10 @@ public class PayerServices implements PayerUseCase {
             payer.setEmail(command.getEmail());
         }
         return payer;
+    }
+
+    private MeetingEvent fetchMeetingEventById(Long eventId) {
+        Optional<MeetingEvent> payer = eventJpaRepository.findById(eventId);
+        return payer.orElseThrow(() -> new IllegalArgumentException("Unable to find event with id: " + eventId));
     }
 }

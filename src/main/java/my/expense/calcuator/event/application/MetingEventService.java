@@ -88,9 +88,4 @@ public class MetingEventService implements MeetingEventUseCase {
     public void removeById(Long id) {
         repository.deleteById(id);
     }
-
-    private Payer fetchMeetingEventById(Long eventId) {
-        Optional<Payer> payer = payerJpaRepository.findById(eventId);
-        return payer.orElseThrow(() -> new IllegalArgumentException("Unable to find event with id: " + eventId));
-    }
 }
