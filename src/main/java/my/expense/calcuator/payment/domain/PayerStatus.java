@@ -8,12 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Getter
-@AllArgsConstructor
 public enum PayerStatus {
 
-    NEW("new"), DURING_SETTLEMENT("during settlement"), SETTLED("settled");
-
-    private String name;
-
-
+    NEW(), DURING_SETTLEMENT(), SETTLED();
 }

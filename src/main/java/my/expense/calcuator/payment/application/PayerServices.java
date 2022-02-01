@@ -40,9 +40,11 @@ public class PayerServices implements PayerUseCase {
 
     private void toUpdate(Long id, Payer payer) {
         MeetingEvent meetingEvent = fetchMeetingEventById(id);
+        payer.removeEvent();
         payer.addEvent(meetingEvent);
     }
 
+    @Transactional
     public UpdatePayerResponse updatePayer(UpdatePayerCommand command) {
         return repository
                 .findById(command.getId())
@@ -52,6 +54,11 @@ public class PayerServices implements PayerUseCase {
                 })
                 .orElseGet(() -> new UpdatePayerResponse(false,
                         Collections.singletonList("Payer not fond with id: " + command.getId())));
+    }
+
+    @Override
+    public UpdatePaymentToThePayerResponse updatePaymentToThePayer(CreatePaymentCommand toCreatePaymentCommand) {
+        //return ; TODO
     }
 
     private Payer updateFields(UpdatePayerCommand command, Payer payer) {

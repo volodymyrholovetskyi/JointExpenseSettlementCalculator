@@ -64,7 +64,7 @@ public class Payer extends BaseEntity {
 
     @OneToMany
     @JoinColumn(name = "payer_id")
-    private Set<Estimation> estimations = new HashSet<>();
+    private List<Estimation> estimations = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     public PayerStatus status = PayerStatus.NEW;

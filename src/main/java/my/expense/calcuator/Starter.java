@@ -76,7 +76,6 @@ public class Starter implements CommandLineRunner {
                 .lastName("Kyryl")
                 .email("mark@gmail.com")
                 .eventId(2l)
-                .status(PayerStatus.DURING_SETTLEMENT)
                 .build();
 
         payerUseCase.addPayer(maryk);

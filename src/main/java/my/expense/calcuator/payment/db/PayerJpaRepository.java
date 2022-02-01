@@ -15,5 +15,5 @@ public interface PayerJpaRepository extends JpaRepository<Payer, Long> {
 
     List<Payer> findByLastNameStartsWithIgnoreCase(String lastName);
 
-    List<Payer> findByFistNameAndLastNameStartsWithIgnoreCase(String firstName, String lastName);
+    List<Payer> findByFirstNameAndLastNameStartsWithIgnoreCase(String firstName, String lastName);
 }
