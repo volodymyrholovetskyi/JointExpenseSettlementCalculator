@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import my.expense.calcuator.payment.application.port.PayerUseCase;
 import my.expense.calcuator.payment.application.port.PayerUseCase.CreatePayerCommand;
+import my.expense.calcuator.payment.application.port.PayerUseCase.CreatePaymentCommand;
 import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerCommand;
 import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerResponse;
 import my.expense.calcuator.payment.application.port.QueryPayerUseCase;
@@ -88,7 +89,11 @@ public class PayerController {
     @PutMapping("/{id}/payment")
     @ResponseStatus(ACCEPTED)
     void addPaymentToThePayer(@PathVariable Long id, @RequestBody RestPaymentCommand command) {
-        payerUseCase.updatePaymentToThePayer(command.toCreatePaymentCommand(id));
+      UpdatePaymentToThePayer response = payerUseCase.updatePaymentToThePayer(command.toCreatePaymentCommand(id));
+    if (!response.isSuccess()) {
+        String message = String.join(",", response.getErrors());
+        throw new ResponseStatusException(BAD_REQUEST, message);
+    }
     }
 
 
@@ -129,7 +134,7 @@ public class PayerController {
         private BigDecimal payment;
 
         CreatePaymentCommand toCreatePaymentCommand(Long id) {
-            new CreatePaymentCommand(id, whatFor, payment);
+          return new CreatePaymentCommand(id, whatFor, payment);
         }
     }
 }

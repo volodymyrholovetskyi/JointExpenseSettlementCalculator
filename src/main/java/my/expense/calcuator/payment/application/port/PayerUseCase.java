@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
 import my.expense.calcuator.payment.domain.Payer;
-import my.expense.calcuator.payment.domain.PayerStatus;
-import org.hibernate.mapping.Collection;
 
-import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
+import static java.util.Collections.*;
 
 public interface PayerUseCase {
 
@@ -18,10 +17,12 @@ public interface PayerUseCase {
 
     UpdatePayerResponse updatePayer(UpdatePayerCommand command);
 
+    UpdatePaymentToThePayerResponse updatePaymentToThePayer(CreatePaymentCommand toCreatePaymentCommand);
+
     @Value
     @Builder
     @AllArgsConstructor
-   class CreatePayerCommand {
+    class CreatePayerCommand {
         Long eventId;
         String firstName;
         String lastName;
@@ -31,7 +32,7 @@ public interface PayerUseCase {
     @Value
     @Builder
     @AllArgsConstructor
-    class UpdatePayerCommand{
+    class UpdatePayerCommand {
         Long id;
         String firstName;
         String lastName;
@@ -39,11 +40,28 @@ public interface PayerUseCase {
     }
 
     @Value
-   class UpdatePayerResponse{
-        public static UpdatePayerResponse SUCCESS = new UpdatePayerResponse(true, Collections.emptyList());
+    @Builder
+    @AllArgsConstructor
+    class CreatePaymentCommand {
+        Long payerId;
+        String whatFor;
+        BigDecimal payment;
+    }
 
-    boolean success;
-    List<String> errors;
+    @Value
+    class UpdatePaymentToThePayerResponse {
+        public static UpdatePaymentToThePayerResponse SUCCESS = new UpdatePaymentToThePayerResponse(true, emptyList());
+
+        boolean success;
+        List<String> errors;
+    }
+
+    @Value
+    class UpdatePayerResponse {
+        public static UpdatePayerResponse SUCCESS = new UpdatePayerResponse(true, emptyList());
+
+        boolean success;
+        List<String> errors;
     }
 
 }
