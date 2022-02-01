@@ -37,6 +37,6 @@ public class QueryPayerService implements QueryPayerUseCase {
 
     @Override
     public List<Payer> findByFirstNameAndLastName(String firstName, String lastName) {
-        return repository.findByFistNameAndLastNameStartsWithIgnoreCase(firstName, lastName);
+        return repository.findByFirstNameAndLastNameStartsWithIgnoreCase(firstName, lastName);
     }
 }

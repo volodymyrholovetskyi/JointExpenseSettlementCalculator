@@ -40,9 +40,11 @@ public class PayerServices implements PayerUseCase {
 
     private void toUpdate(Long id, Payer payer) {
         MeetingEvent meetingEvent = fetchMeetingEventById(id);
+        payer.removeEvent();
         payer.addEvent(meetingEvent);
     }
 
+    @Transactional
     public UpdatePayerResponse updatePayer(UpdatePayerCommand command) {
         return repository
                 .findById(command.getId())
