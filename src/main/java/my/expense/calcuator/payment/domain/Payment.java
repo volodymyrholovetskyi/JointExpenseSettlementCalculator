@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Payment extends BaseEntity {
 
-    private String whatFor;
+    private String title;
 
     private BigDecimal payment;
 

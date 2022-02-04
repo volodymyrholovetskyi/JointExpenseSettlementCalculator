@@ -56,11 +56,6 @@ public class PayerServices implements PayerUseCase {
                         Collections.singletonList("Payer not fond with id: " + command.getId())));
     }
 
-    @Override
-    public UpdatePaymentToThePayerResponse updatePaymentToThePayer(CreatePaymentCommand toCreatePaymentCommand) {
-        //return ; TODO
-    }
-
     private Payer updateFields(UpdatePayerCommand command, Payer payer) {
         if (command.getFirstName() != null) {
             payer.setFirstName(command.getFirstName());

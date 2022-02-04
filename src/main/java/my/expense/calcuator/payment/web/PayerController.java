@@ -86,16 +86,6 @@ public class PayerController {
         }
     }
 
-    @PutMapping("/{id}/payment")
-    @ResponseStatus(ACCEPTED)
-    void addPaymentToThePayer(@PathVariable Long id, @RequestBody RestPaymentCommand command) {
-      UpdatePaymentToThePayer response = payerUseCase.updatePaymentToThePayer(command.toCreatePaymentCommand(id));
-    if (!response.isSuccess()) {
-        String message = String.join(",", response.getErrors());
-        throw new ResponseStatusException(BAD_REQUEST, message);
-    }
-    }
-
 
     interface UpdateValidation {
     }
@@ -123,18 +113,8 @@ public class PayerController {
 
         UpdatePayerCommand toUpdateCommand(Long id) {
             return new UpdatePayerCommand(id, firstName, lastName, email);
+
         }
 
-    }
-
-    private static class RestPaymentCommand {
-
-        private String whatFor;
-
-        private BigDecimal payment;
-
-        CreatePaymentCommand toCreatePaymentCommand(Long id) {
-          return new CreatePaymentCommand(id, whatFor, payment);
-        }
     }
 }
