@@ -37,14 +37,6 @@ public interface PayerUseCase {
         String email;
     }
 
-    @Value
-    @Builder
-    @AllArgsConstructor
-    class CreatePaymentCommand {
-        Long payerId;
-        String whatFor;
-        BigDecimal payment;
-    }
 
     @Value
     class UpdatePaymentToThePayerResponse {

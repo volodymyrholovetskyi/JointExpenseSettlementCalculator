@@ -93,5 +93,9 @@ public class Payer extends BaseEntity {
         event.getPayers().remove(self);
         event = null;
     }
+
+    public void addPayment(Payment payment){
+        payments.add(payment);
+    }
 }
 

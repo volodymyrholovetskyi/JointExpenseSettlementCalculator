@@ -6,6 +6,7 @@ import my.expense.calcuator.event.domain.MeetingEvent;
 import my.expense.calcuator.payment.application.port.PayerUseCase;
 import my.expense.calcuator.payment.db.PayerJpaRepository;
 import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payment.domain.Payment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,7 @@ public class PayerServices implements PayerUseCase {
         payer.addEvent(meetingEvent);
     }
 
+    @Override
     @Transactional
     public UpdatePayerResponse updatePayer(UpdatePayerCommand command) {
         return repository
@@ -54,6 +56,10 @@ public class PayerServices implements PayerUseCase {
                 })
                 .orElseGet(() -> new UpdatePayerResponse(false,
                         Collections.singletonList("Payer not fond with id: " + command.getId())));
+    }
+
+    void updatePaymentForPayer(Long payerId, Payment payment) {
+
     }
 
     private Payer updateFields(UpdatePayerCommand command, Payer payer) {

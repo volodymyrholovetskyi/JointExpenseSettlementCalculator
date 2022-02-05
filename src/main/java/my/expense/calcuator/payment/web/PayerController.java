@@ -4,19 +4,16 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import my.expense.calcuator.payment.application.port.PayerUseCase;
 import my.expense.calcuator.payment.application.port.PayerUseCase.CreatePayerCommand;
-import my.expense.calcuator.payment.application.port.PayerUseCase.CreatePaymentCommand;
 import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerCommand;
 import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerResponse;
 import my.expense.calcuator.payment.application.port.QueryPayerUseCase;
 import my.expense.calcuator.payment.domain.Payer;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,12 +23,14 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
@@ -86,13 +85,12 @@ public class PayerController {
         }
     }
 
-
-    interface UpdateValidation {
+   private interface CreateValidation {
     }
 
-    interface CreateValidation {
-
+    private interface UpdateValidation {
     }
+
 
     @Data
     private static class RestPayerCommand {
