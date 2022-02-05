@@ -1,6 +1,7 @@
 package my.expense.calcuator.payment.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @ToString
@@ -24,7 +26,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Payment extends BaseEntity {
 
-    private String whatFor;
+    private String title;
 
     private BigDecimal payment;
 
@@ -33,4 +35,9 @@ public class Payment extends BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime updateAt;
+
+    public void addPayer(Payer payer){
+
+    }
+
 }

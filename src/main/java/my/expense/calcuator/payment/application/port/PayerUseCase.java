@@ -17,8 +17,6 @@ public interface PayerUseCase {
 
     UpdatePayerResponse updatePayer(UpdatePayerCommand command);
 
-    UpdatePaymentToThePayerResponse updatePaymentToThePayer(CreatePaymentCommand toCreatePaymentCommand);
-
     @Value
     @Builder
     @AllArgsConstructor
@@ -39,14 +37,6 @@ public interface PayerUseCase {
         String email;
     }
 
-    @Value
-    @Builder
-    @AllArgsConstructor
-    class CreatePaymentCommand {
-        Long payerId;
-        String whatFor;
-        BigDecimal payment;
-    }
 
     @Value
     class UpdatePaymentToThePayerResponse {
@@ -64,4 +54,11 @@ public interface PayerUseCase {
         List<String> errors;
     }
 
+    @Value
+    class UpdatePayerMeetingEventResponse {
+        public static UpdatePayerMeetingEventResponse SUCCESS = new UpdatePayerMeetingEventResponse(true, emptyList());
+
+        boolean success;
+        List<String> errors;
+    }
 }

@@ -3,6 +3,7 @@ package my.expense.calcuator.shared.jpa;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import my.expense.calcuator.payment.domain.Payer;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,4 +25,5 @@ public abstract class BaseEntity {
 
     @Version
     private long version;
+
 }
