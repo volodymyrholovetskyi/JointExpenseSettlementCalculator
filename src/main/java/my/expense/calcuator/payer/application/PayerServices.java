@@ -1,11 +1,11 @@
-package my.expense.calcuator.payment.application;
+package my.expense.calcuator.payer.application;
 
 import lombok.AllArgsConstructor;
 import my.expense.calcuator.event.db.MeetingEventJpaRepository;
 import my.expense.calcuator.event.domain.MeetingEvent;
-import my.expense.calcuator.payment.application.port.PayerUseCase;
-import my.expense.calcuator.payment.db.PayerJpaRepository;
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.application.port.PayerUseCase;
+import my.expense.calcuator.payer.db.PayerJpaRepository;
+import my.expense.calcuator.payer.domain.Payer;
 import my.expense.calcuator.payment.domain.Payment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,9 +58,6 @@ public class PayerServices implements PayerUseCase {
                         Collections.singletonList("Payer not fond with id: " + command.getId())));
     }
 
-    void updatePaymentForPayer(Long payerId, Payment payment) {
-
-    }
 
     private Payer updateFields(UpdatePayerCommand command, Payer payer) {
         if (command.getFirstName() != null) {

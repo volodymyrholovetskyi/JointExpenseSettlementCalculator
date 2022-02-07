@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import my.expense.calcuator.event.application.port.MeetingEventUseCase;
 import my.expense.calcuator.event.db.MeetingEventJpaRepository;
 import my.expense.calcuator.event.domain.MeetingEvent;
-import my.expense.calcuator.payment.db.PayerJpaRepository;
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.db.PayerJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

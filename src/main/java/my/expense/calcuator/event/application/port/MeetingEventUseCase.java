@@ -4,10 +4,9 @@ package my.expense.calcuator.event.application.port;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Singular;
 import lombok.Value;
 import my.expense.calcuator.event.domain.MeetingEvent;
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.domain.Payer;
 
 import javax.validation.Valid;
 import java.util.Collections;

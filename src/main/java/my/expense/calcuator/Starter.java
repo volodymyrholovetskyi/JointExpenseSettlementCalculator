@@ -4,18 +4,14 @@ import lombok.AllArgsConstructor;
 import my.expense.calcuator.event.application.port.MeetingEventUseCase;
 import my.expense.calcuator.event.application.port.MeetingEventUseCase.CreateMeetingEventCommand;
 import my.expense.calcuator.event.domain.MeetingEvent;
-import my.expense.calcuator.payment.application.port.PayerUseCase;
-import my.expense.calcuator.payment.db.PayerJpaRepository;
-import my.expense.calcuator.payment.domain.Payer;
-import my.expense.calcuator.payment.domain.PayerStatus;
+import my.expense.calcuator.payer.application.port.PayerUseCase;
+import my.expense.calcuator.payer.db.PayerJpaRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
-import static my.expense.calcuator.payment.application.port.PayerUseCase.*;
+import static my.expense.calcuator.payer.application.port.PayerUseCase.*;
 
 @Component
 @AllArgsConstructor
@@ -46,11 +42,11 @@ public class Starter implements CommandLineRunner {
         useCase.addMeetingEvent(fuel);
         useCase.addMeetingEvent(eat);
         useCase.getAll().forEach(System.out::println);
-        useCase.findByName("wycieczka").forEach(System.out::println);
-        useCase.findByLocation("lub").forEach(System.out::println);
-        useCase.findByNameAndLocation("wycieczka", "udd")
-                .forEach(System.out::println);
-        Long byId = 2L;
+//        useCase.findByName("wycieczka").forEach(System.out::println);
+//        useCase.findByLocation("lub").forEach(System.out::println);
+//        useCase.findByNameAndLocation("wycieczka", "udd")
+//                .forEach(System.out::println);
+        Long byId = 1L;
         Optional<MeetingEvent> byIdEvent = useCase.findById(byId);
         MeetingEvent meetingEvent = byIdEvent
                 .orElseThrow(() ->
