@@ -9,8 +9,6 @@ import my.expense.calcuator.payment.application.port.PaymentUseCase.UpdatePaymen
 import my.expense.calcuator.payment.application.port.PaymentUseCase.UpdatePaymentResponse;
 import my.expense.calcuator.payment.application.port.QueryPaymentUseCase;
 import my.expense.calcuator.payment.domain.Payment;
-import my.expense.calcuator.payment.web.valid.CreateValidation;
-import my.expense.calcuator.payment.web.valid.UpdateValidation;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.http.HttpStatus;
@@ -75,9 +73,9 @@ public class PaymentController {
                        @RequestBody @Validated({UpdateValidation.class}) RestPaymentCommand command) {
         UpdatePaymentResponse response = paymentUseCase.updatePayment(command.toUpdateCommand(id));
 
-        if (!response.isSuccess()){
+        if (!response.isSuccess()) {
             String message = String.join(",", response.getErrors());
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
 
     }
@@ -85,6 +83,13 @@ public class PaymentController {
     private URI createPaymentUri(Payment payment) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequestUri().path("/" + payment.getId().toString()).build().toUri();
+    }
+
+    private interface CreateValidation{
+
+    }
+    private interface UpdateValidation{
+
     }
 
     @Data

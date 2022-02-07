@@ -1,6 +1,6 @@
-package my.expense.calcuator.payment.db;
+package my.expense.calcuator.payer.db;
 
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.domain.Payer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

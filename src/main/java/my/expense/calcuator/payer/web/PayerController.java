@@ -1,13 +1,13 @@
-package my.expense.calcuator.payment.web;
+package my.expense.calcuator.payer.web;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import my.expense.calcuator.payment.application.port.PayerUseCase;
-import my.expense.calcuator.payment.application.port.PayerUseCase.CreatePayerCommand;
-import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerCommand;
-import my.expense.calcuator.payment.application.port.PayerUseCase.UpdatePayerResponse;
-import my.expense.calcuator.payment.application.port.QueryPayerUseCase;
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.application.port.PayerUseCase;
+import my.expense.calcuator.payer.application.port.PayerUseCase.CreatePayerCommand;
+import my.expense.calcuator.payer.application.port.PayerUseCase.UpdatePayerCommand;
+import my.expense.calcuator.payer.application.port.PayerUseCase.UpdatePayerResponse;
+import my.expense.calcuator.payer.application.port.QueryPayerUseCase;
+import my.expense.calcuator.payer.domain.Payer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

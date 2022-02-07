@@ -2,9 +2,9 @@ package my.expense.calcuator.payment.application;
 
 import lombok.AllArgsConstructor;
 import my.expense.calcuator.payment.application.port.PaymentUseCase;
-import my.expense.calcuator.payment.db.PayerJpaRepository;
+import my.expense.calcuator.payer.db.PayerJpaRepository;
 import my.expense.calcuator.payment.db.PaymentJpaRepository;
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.domain.Payer;
 import my.expense.calcuator.payment.domain.Payment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

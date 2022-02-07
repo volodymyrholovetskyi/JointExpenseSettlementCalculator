@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import my.expense.calcuator.payment.domain.Payer;
-import my.expense.calcuator.shared.jpa.BaseEntity;
+import my.expense.calcuator.payer.domain.Payer;
+import my.expense.calcuator.jpa.BaseEntity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,8 +39,9 @@ public class MeetingEvent extends BaseEntity {
 
     private String location;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-//    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "event", cascade =
+            {CascadeType.MERGE, CascadeType.PERSIST})
+    @Fetch(FetchMode.SUBSELECT)
     @JsonIgnoreProperties("event")
     private List<Payer> payers = new ArrayList<>();
 

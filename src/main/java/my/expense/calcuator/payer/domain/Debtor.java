@@ -1,4 +1,4 @@
-package my.expense.calcuator.calculation.domain;
+package my.expense.calcuator.payer.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,10 +13,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ReturnMoney {
+public class Debtor {
 
-    private BigDecimal returnMoney;
+    private String firstName;
 
-    private String nameReturnMoney;
+    private String lastName;
 
+    private BigDecimal payment;
 }

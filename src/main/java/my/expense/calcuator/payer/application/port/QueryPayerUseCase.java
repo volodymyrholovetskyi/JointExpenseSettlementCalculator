@@ -1,6 +1,6 @@
-package my.expense.calcuator.payment.application.port;
+package my.expense.calcuator.payer.application.port;
 
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.domain.Payer;
 
 import java.util.List;
 import java.util.Optional;

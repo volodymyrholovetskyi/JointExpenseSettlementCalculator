@@ -1,22 +1,24 @@
-package my.expense.calcuator.payment.domain;
+package my.expense.calcuator.payer.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 import lombok.ToString;
-import my.expense.calcuator.calculation.domain.Estimation;
 import my.expense.calcuator.event.domain.MeetingEvent;
-import my.expense.calcuator.shared.jpa.BaseEntity;
+import my.expense.calcuator.jpa.BaseEntity;
+import my.expense.calcuator.payment.domain.Payment;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
@@ -25,17 +27,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Getter
 @Setter
-@ToString(exclude = {"payments", "event"})
+@ToString(exclude = {"payments", "event", "debts", "debtors"})
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -60,14 +59,25 @@ public class Payer extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "payer_id")
+    @Singular
     private List<Payment> payments = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "payer_id")
-    private List<Estimation> estimations = new ArrayList<>();
+    @CollectionTable(
+            name = "payer_debts",
+            joinColumns = @JoinColumn(name = "payer_id")
+    )
+    @ElementCollection
+    private List<Debt> debts = new ArrayList<>();
+
+    @CollectionTable(
+            name = "payer_debtors",
+            joinColumns = @JoinColumn(name = "payer_id")
+    )
+    @ElementCollection
+    private List<Debtor> debtors = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    public PayerStatus status = PayerStatus.NEW;
+    public PayerStatus status = PayerStatus.NOT_SETTLED;
 
     @CreatedDate
     private LocalDateTime createAt;
@@ -94,7 +104,7 @@ public class Payer extends BaseEntity {
         event = null;
     }
 
-    public void addPayment(Payment payment){
+    public void addPayment(Payment payment) {
         payments.add(payment);
     }
 }

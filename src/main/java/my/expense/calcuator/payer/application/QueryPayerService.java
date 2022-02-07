@@ -1,9 +1,9 @@
-package my.expense.calcuator.payment.application;
+package my.expense.calcuator.payer.application;
 
 import lombok.RequiredArgsConstructor;
-import my.expense.calcuator.payment.application.port.QueryPayerUseCase;
-import my.expense.calcuator.payment.db.PayerJpaRepository;
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.application.port.QueryPayerUseCase;
+import my.expense.calcuator.payer.db.PayerJpaRepository;
+import my.expense.calcuator.payer.domain.Payer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

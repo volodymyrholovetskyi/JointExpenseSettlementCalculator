@@ -1,9 +1,8 @@
-package my.expense.calcuator.shared.jpa;
+package my.expense.calcuator.jpa;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import my.expense.calcuator.payment.domain.Payer;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

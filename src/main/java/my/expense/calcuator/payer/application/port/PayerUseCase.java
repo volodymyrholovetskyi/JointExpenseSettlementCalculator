@@ -1,12 +1,10 @@
-package my.expense.calcuator.payment.application.port;
+package my.expense.calcuator.payer.application.port;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
-import my.expense.calcuator.payment.domain.Payer;
+import my.expense.calcuator.payer.domain.Payer;
 
-import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.*;

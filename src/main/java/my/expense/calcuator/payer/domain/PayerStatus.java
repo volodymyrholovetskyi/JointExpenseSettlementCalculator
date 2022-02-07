@@ -1,4 +1,4 @@
-package my.expense.calcuator.payment.domain;
+package my.expense.calcuator.payer.domain;
 
 import com.fasterxml.jackson.databind.deser.Deserializers;
 import lombok.AllArgsConstructor;
@@ -10,5 +10,5 @@ import java.io.Serializable;
 @Getter
 public enum PayerStatus {
 
-    NEW(), DURING_SETTLEMENT(), SETTLED();
+    NOT_SETTLED(), DURING_SETTLEMENT(), SETTLED();
 }
