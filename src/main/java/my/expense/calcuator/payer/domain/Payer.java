@@ -48,6 +48,9 @@ public class Payer extends BaseEntity {
     @Column(unique = true)
     private String email;
 
+    @Column(name = "message")
+    private boolean isMessage;
+
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable
             (name = "payer_event",
@@ -86,7 +89,7 @@ public class Payer extends BaseEntity {
     private LocalDateTime updateAt;
 
     @Builder
-    public Payer(String firstName, String lastName, String email, PayerStatus status) {
+    public Payer(String firstName, String lastName, String email, PayerStatus status, boolean message) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
