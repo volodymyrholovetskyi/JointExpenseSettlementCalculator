@@ -2,7 +2,7 @@ package my.expense.calcuator.payer.web;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import my.expense.calcuator.payer.application.ExtendedPayer;
+import my.expense.calcuator.payer.application.calculation.ExtendedPayer;
 import my.expense.calcuator.payer.application.port.PayerUseCase;
 import my.expense.calcuator.payer.application.port.PayerUseCase.CreatePayerCommand;
 import my.expense.calcuator.payer.application.port.PayerUseCase.UpdatePayerCommand;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,7 +25,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.constraints.NotBlank;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -44,7 +42,7 @@ public class PayerController {
 
     @GetMapping()
     @ResponseStatus(OK)
-    List<ExtendedPayer> gitAll() {
+    List<Payer> gitAll() {
         return queryPayer.getAll();
     }
 

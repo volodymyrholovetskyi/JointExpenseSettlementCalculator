@@ -6,9 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Singular;
 import lombok.ToString;
 import my.expense.calcuator.event.domain.MeetingEvent;
 import my.expense.calcuator.jpa.BaseEntity;
+import my.expense.calcuator.payer.application.calculation.Debt;
+import my.expense.calcuator.payer.application.calculation.Debtor;
 import my.expense.calcuator.payment.domain.Payment;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -36,7 +39,7 @@ import java.util.Optional;
 
 @Getter
 @Setter
-@ToString(exclude = {"payments", "event", "debts", "debtors"})
+@ToString(exclude = {"payments", "event"})
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -53,18 +56,6 @@ public class Payer extends BaseEntity {
     @Column(name = "message")
     private boolean isMessage;
 
-    @CollectionTable(
-            name = "payer_debts", joinColumns = @JoinColumn(name = "payer_id")
-    )
-    @ElementCollection
-    private List<Debt> debts = new ArrayList<>();
-
-    @CollectionTable(
-            name = "payer_debtors", joinColumns = @JoinColumn(name = "payer_id")
-    )
-    @ElementCollection
-    private List<Debtor> debtors = new ArrayList<>();
-
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable
             (name = "payer_event",
@@ -76,7 +67,7 @@ public class Payer extends BaseEntity {
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "payerId")
-//    @Singular
+    @Singular
     @Fetch(FetchMode.SUBSELECT)
     private List<Payment> payments = new ArrayList<>();
 
