@@ -1,6 +1,7 @@
 package my.expense.calcuator.payment.application;
 
 import lombok.AllArgsConstructor;
+import my.expense.calcuator.payer.application.calculation.CalculateService;
 import my.expense.calcuator.payment.application.port.QueryPaymentUseCase;
 import my.expense.calcuator.payment.db.PaymentJpaRepository;
 import my.expense.calcuator.payment.domain.Payment;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class QueryPaymentService implements QueryPaymentUseCase {
 
     private final PaymentJpaRepository paymentJpaRepository;
+    private final CalculateService calculateService;
 
     @Override
     public List<Payment> findByTitle(String title) {

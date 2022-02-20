@@ -6,11 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.Singular;
 import lombok.ToString;
 import my.expense.calcuator.event.domain.MeetingEvent;
 import my.expense.calcuator.jpa.BaseEntity;
 import my.expense.calcuator.payment.domain.Payment;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -27,6 +28,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,21 @@ public class Payer extends BaseEntity {
     @Column(unique = true)
     private String email;
 
+    @Column(name = "message")
+    private boolean isMessage;
+
+    @CollectionTable(
+            name = "payer_debts", joinColumns = @JoinColumn(name = "payer_id")
+    )
+    @ElementCollection
+    private List<Debt> debts = new ArrayList<>();
+
+    @CollectionTable(
+            name = "payer_debtors", joinColumns = @JoinColumn(name = "payer_id")
+    )
+    @ElementCollection
+    private List<Debtor> debtors = new ArrayList<>();
+
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable
             (name = "payer_event",
@@ -57,24 +74,11 @@ public class Payer extends BaseEntity {
     @JsonIgnoreProperties("payers")
     private MeetingEvent event = new MeetingEvent();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "payer_id")
-    @Singular
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "payerId")
+//    @Singular
+    @Fetch(FetchMode.SUBSELECT)
     private List<Payment> payments = new ArrayList<>();
-
-    @CollectionTable(
-            name = "payer_debts",
-            joinColumns = @JoinColumn(name = "payer_id")
-    )
-    @ElementCollection
-    private List<Debt> debts = new ArrayList<>();
-
-    @CollectionTable(
-            name = "payer_debtors",
-            joinColumns = @JoinColumn(name = "payer_id")
-    )
-    @ElementCollection
-    private List<Debtor> debtors = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     public PayerStatus status = PayerStatus.NOT_SETTLED;
@@ -86,11 +90,12 @@ public class Payer extends BaseEntity {
     private LocalDateTime updateAt;
 
     @Builder
-    public Payer(String firstName, String lastName, String email, PayerStatus status) {
+    public Payer(String firstName, String lastName, String email, PayerStatus status, boolean message) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.status = Optional.ofNullable(status).orElse(this.status);
+        this.isMessage = message;
     }
 
     public void addEvent(MeetingEvent meetingEvent) {
@@ -104,8 +109,14 @@ public class Payer extends BaseEntity {
         event = null;
     }
 
-    public void addPayment(Payment payment) {
+    public void addPayment(Payment payment){
         payments.add(payment);
+    }
+
+    public BigDecimal totalCost(){
+        return payments.stream()
+                .map(Payment::getPayment)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
 

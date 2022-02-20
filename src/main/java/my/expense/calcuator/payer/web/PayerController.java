@@ -2,6 +2,7 @@ package my.expense.calcuator.payer.web;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import my.expense.calcuator.payer.application.ExtendedPayer;
 import my.expense.calcuator.payer.application.port.PayerUseCase;
 import my.expense.calcuator.payer.application.port.PayerUseCase.CreatePayerCommand;
 import my.expense.calcuator.payer.application.port.PayerUseCase.UpdatePayerCommand;
@@ -43,16 +44,7 @@ public class PayerController {
 
     @GetMapping()
     @ResponseStatus(OK)
-    List<Payer> gitAll(@RequestParam Optional<String> firstName,
-                       @RequestParam Optional<String> lastName) {
-
-        if (firstName.isPresent()) {
-            return queryPayer.findByFirstName(firstName.get());
-        } else if (lastName.isPresent()) {
-            return queryPayer.findByLastName(lastName.get());
-        } else if (firstName.isPresent() && lastName.isPresent()) {
-            return queryPayer.findByFirstNameAndLastName(firstName.get(), lastName.get());
-        }
+    List<ExtendedPayer> gitAll() {
         return queryPayer.getAll();
     }
 
