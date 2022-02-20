@@ -1,18 +1,17 @@
-package my.expense.calcuator.payer.domain;
+package my.expense.calcuator.payer.application.calculation;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Value;
 
-import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
-@Embeddable
 @AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Value
+@Builder
 public class Debt {
 
     private String firstName;

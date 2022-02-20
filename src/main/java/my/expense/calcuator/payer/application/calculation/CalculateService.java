@@ -1,36 +1,50 @@
 package my.expense.calcuator.payer.application.calculation;
 
 import lombok.AllArgsConstructor;
+import my.expense.calcuator.payer.application.QueryPayerService;
+import my.expense.calcuator.payer.application.calculation.strategy.SettlementPayer;
+import my.expense.calcuator.payer.application.calculation.strategy.SettlementService;
 import my.expense.calcuator.payer.domain.Payer;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class CalculateService {
 
-    private final List<CalculateExpenseStrategy> strategies = Arrays.asList(
-            new CalculateTotalCostOfOnePerson(),
-            new CalculateTheTotalCostForAllPeople()
-    );
+    private final QueryPayerService payerService;
+    private final SettlementService settlementService;
 
-    public SettlementPayer costExpense(BigDecimal averages, List<Payer> payers) {
+    private List<ExtendedPayer> extendedPayers;
 
-        for (Payer payer : payers) {
-            SettlementPayer settlementPayer = new SettlementPayer()
-        }
 
-        SettlementPayer settlement = new SettlementPayer(payer.getDebts(), payer.getDebtors());
-        calculate(averages, payers);
-        return settlement;
+    public List<ExtendedPayer> getAllCalculations() {
+        List<Payer> payers = payerService.getAll();
+        settlementService.costExpense(payers);
+//        toExtendedPayer();
+//        return toExtendedPayer(payers);
+        return extendedPayers;
     }
 
-    public void calculate(BigDecimal averages, Payer payer) {
 
+//    @Override
+//    public List<ExtendedPayer> getAll() {
+//        List<Payer> payers = repository.findAll();
+//        List<ExtendedPayer> extendedPayers = payers.stream().map(payer -> toExtendedPayer(payer, payers))
+//                .collect(Collectors.toList());
+//        return extendedPayers;
 
-        strategies.forEach(s -> s.calculate(averages, payer));
-    }
+    //
+//    private ExtendedPayer toExtendedPayer(List<Payer> payers) {
+//        List<SettlementPayer> settlementPayers = settlementService.costExpense(payers);
+//
+//        ExtendedPayer extendedPayer = ExtendedPayer.builder()
+//
+//                .debtors(settlement.getDebtors())
+//                .debts(settlement.getDebts())
+//                .build();
+//
+//        return extendedPayer;
+//    }
 }

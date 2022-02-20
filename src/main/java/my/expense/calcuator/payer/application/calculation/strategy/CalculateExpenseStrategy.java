@@ -1,4 +1,4 @@
-package my.expense.calcuator.payer.application.calculation;
+package my.expense.calcuator.payer.application.calculation.strategy;
 
 import my.expense.calcuator.payer.domain.Payer;
 
@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CalculateExpenseStrategy {
 
-    void calculate(BigDecimal averages, List<Payer> payers);
+    void calculate(List<SettlementPayer> settlementPayers);
 }
