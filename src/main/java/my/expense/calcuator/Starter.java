@@ -71,7 +71,7 @@ public class Starter implements CommandLineRunner {
                 .firstName("Maryk")
                 .lastName("Kyryl")
                 .email("mark@gmail.com")
-                .eventId(2l)
+                .eventId(1l)
                 .build();
 
         payerUseCase.addPayer(maryk);
@@ -81,10 +81,20 @@ public class Starter implements CommandLineRunner {
                 .firstName("Mariia")
                 .lastName("Khort")
                 .email("mariia@gmail.com")
-                .eventId(3l)
+                .eventId(1l)
                 .build();
 
         payerUseCase.addPayer(mariia);
+
+        CreatePayerCommand bogdan = CreatePayerCommand
+                .builder()
+                .firstName("Bogndan")
+                .lastName("Bentsal")
+                .email("bogdan@gmail.com")
+                .eventId(1l)
+                .build();
+
+        payerUseCase.addPayer(bogdan);
 
 //        List<Payer> payers = repository.getAllWithJoinFetch();
 

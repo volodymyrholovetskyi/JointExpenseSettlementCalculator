@@ -1,31 +1,31 @@
 package my.expense.calcuator.payer.application.calculation.strategy;
 
 import lombok.AllArgsConstructor;
-import my.expense.calcuator.payer.application.PayerServices;
 import my.expense.calcuator.payer.domain.Payer;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class SettlementService {
 
-    private List<SettlementPayer> settlementPayers = new ArrayList<>();
+    private List<SettlementPayer> settlementPayers;
 
-//    private final List<CalculateExpenseStrategy> strategies = Arrays.asList(
-//            new CalculateTotalCostOfOnePerson(),
-//            new CalculateTheAverageForAllPeople()
-//            );
+    private final List<CalculateExpenseStrategy> strategies = Arrays.asList(
+            new CalculateTotalCostOfOnePerson(),
+            new CalculateTheAverageForAllPeople(),
+            new CalculateBalanceStrategy(),
+            new CalculateCostDebtorStrategy(),
+            new CalculateCostDebtStrategy()
+    );
 
-
-    public void costExpense(List<Payer> payers) {
-        CalculateExpenseStrategy average = new CalculateTheAverageForAllPeople();
+    public List<SettlementPayer> costExpense(List<Payer> payers) {
+        settlementPayers.clear();
         toSettlementPayer(payers);
-
-        average.calculate(settlementPayers);
-        settlementPayers.forEach(System.out::println);
+        strategies.stream().forEach(strategy -> strategy.calculate(settlementPayers));
+        return settlementPayers;
     }
 
     private void toSettlementPayer(List<Payer> payers) {

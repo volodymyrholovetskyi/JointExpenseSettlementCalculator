@@ -14,9 +14,9 @@ import java.math.BigDecimal;
 @Builder
 public class Debt {
 
-    private String firstName;
+    String firstName;
 
-    private String lastName;
+    String lastName;
 
-    private BigDecimal payment;
+    BigDecimal payment;
 }

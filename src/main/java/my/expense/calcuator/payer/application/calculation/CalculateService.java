@@ -21,30 +21,22 @@ public class CalculateService {
 
     public List<ExtendedPayer> getAllCalculations() {
         List<Payer> payers = payerService.getAll();
-        settlementService.costExpense(payers);
-//        toExtendedPayer();
-//        return toExtendedPayer(payers);
+        List<SettlementPayer> settlementPayers = settlementService.costExpense(payers);
+        toExtendedPayer(settlementPayers);
         return extendedPayers;
     }
 
-
-//    @Override
-//    public List<ExtendedPayer> getAll() {
-//        List<Payer> payers = repository.findAll();
-//        List<ExtendedPayer> extendedPayers = payers.stream().map(payer -> toExtendedPayer(payer, payers))
-//                .collect(Collectors.toList());
-//        return extendedPayers;
-
-    //
-//    private ExtendedPayer toExtendedPayer(List<Payer> payers) {
-//        List<SettlementPayer> settlementPayers = settlementService.costExpense(payers);
-//
-//        ExtendedPayer extendedPayer = ExtendedPayer.builder()
-//
-//                .debtors(settlement.getDebtors())
-//                .debts(settlement.getDebts())
-//                .build();
-//
-//        return extendedPayer;
-//    }
+    private void toExtendedPayer(List<SettlementPayer> settlementPayers) {
+        for (SettlementPayer settlementPayer : settlementPayers) {
+            extendedPayers.add(new ExtendedPayer(
+                    settlementPayer.getFirstName(),
+                    settlementPayer.getLastName(),
+                    settlementPayer.getPayments(),
+                    settlementPayer.getDebts(),
+                    settlementPayer.getDebtors(),
+                    settlementPayer.getTotalCost(),
+                    settlementPayer.getAverage()
+            ));
+        }
+    }
 }

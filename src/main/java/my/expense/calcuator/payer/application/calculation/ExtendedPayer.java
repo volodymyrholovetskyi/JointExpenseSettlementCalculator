@@ -11,13 +11,12 @@ import java.util.List;
 @Builder
 public class ExtendedPayer {
 
-    Long id;
     String firstName;
     String lastName;
     List<Payment> payments;
     List<Debt> debts;
     List<Debtor> debtors;
-    BigDecimal totalCostOfOnePerson;
-    BigDecimal totalCostForAllPeople;
+    BigDecimal totalCost;
+    BigDecimal average;
 
 }
