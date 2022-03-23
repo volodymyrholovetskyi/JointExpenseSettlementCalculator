@@ -2,7 +2,6 @@ package my.expense.calcuator.payer.web;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import my.expense.calcuator.payer.application.calculation.ExtendedPayer;
 import my.expense.calcuator.payer.application.port.PayerUseCase;
 import my.expense.calcuator.payer.application.port.PayerUseCase.CreatePayerCommand;
 import my.expense.calcuator.payer.application.port.PayerUseCase.UpdatePayerCommand;

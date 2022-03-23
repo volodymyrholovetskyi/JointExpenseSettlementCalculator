@@ -12,8 +12,6 @@ import java.math.BigDecimal;
 public class Debtor {
 
     String firstName;
-
     String lastName;
-
     BigDecimal payment;
 }

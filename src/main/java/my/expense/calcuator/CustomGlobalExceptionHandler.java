@@ -27,6 +27,11 @@ public class CustomGlobalExceptionHandler {
         return handleError(HttpStatus.BAD_REQUEST, errors);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handle(IllegalArgumentException ex) {
+        return handleError(HttpStatus.BAD_REQUEST, List.of(ex.getMessage()));
+    }
+
     private ResponseEntity<Object> handleError(HttpStatus status, List<String> errors) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());

@@ -1,7 +1,7 @@
 package my.expense.calcuator.payer.application.calculation;
 
 import lombok.AllArgsConstructor;
-import my.expense.calcuator.payer.application.QueryPayerService;
+import my.expense.calcuator.event.db.MeetingEventJpaRepository;
 import my.expense.calcuator.payer.application.calculation.strategy.SettlementPayer;
 import my.expense.calcuator.payer.application.calculation.strategy.SettlementService;
 import my.expense.calcuator.payer.domain.Payer;
@@ -13,22 +13,23 @@ import java.util.List;
 @AllArgsConstructor
 public class CalculateService {
 
-    private final QueryPayerService payerService;
+    private final MeetingEventJpaRepository jpaRepository;
     private final SettlementService settlementService;
 
-    private List<ExtendedPayer> extendedPayers;
+    private List<RichPayer> calculatedPayments;
 
 
-    public List<ExtendedPayer> getAllCalculations() {
-        List<Payer> payers = payerService.getAll();
-        List<SettlementPayer> settlementPayers = settlementService.costExpense(payers);
+    public List<RichPayer> getCalculatedExpenses(Long id) {
+        List<Payer> payers = getEventById(id);
+        List<SettlementPayer> settlementPayers = settlementService.calculateExpenses(payers);
         toExtendedPayer(settlementPayers);
-        return extendedPayers;
+        return calculatedPayments;
     }
 
     private void toExtendedPayer(List<SettlementPayer> settlementPayers) {
+        calculatedPayments.clear();
         for (SettlementPayer settlementPayer : settlementPayers) {
-            extendedPayers.add(new ExtendedPayer(
+            calculatedPayments.add(new RichPayer(
                     settlementPayer.getFirstName(),
                     settlementPayer.getLastName(),
                     settlementPayer.getPayments(),
@@ -38,5 +39,11 @@ public class CalculateService {
                     settlementPayer.getAverage()
             ));
         }
+    }
+
+    private List<Payer> getEventById(Long id) {
+        return jpaRepository.findById(id)
+                .map(meetingEvent -> meetingEvent.getPayers())
+                .orElseThrow(() -> new IllegalArgumentException("Not found event by id: " + id));
     }
 }

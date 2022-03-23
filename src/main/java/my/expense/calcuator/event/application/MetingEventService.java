@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import my.expense.calcuator.event.application.port.MeetingEventUseCase;
 import my.expense.calcuator.event.db.MeetingEventJpaRepository;
 import my.expense.calcuator.event.domain.MeetingEvent;
-import my.expense.calcuator.payer.db.PayerJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +16,6 @@ import java.util.Optional;
 public class MetingEventService implements MeetingEventUseCase {
 
     private final MeetingEventJpaRepository repository;
-    private final PayerJpaRepository payerJpaRepository;
 
     @Override
     public List<MeetingEvent> getAll() {

@@ -39,6 +39,17 @@ public class SettlementPayer {
         }
         debts.add(debt);
     }
+
+    public void setZeroBalance() {
+        this.balance = BigDecimal.ZERO;
+    }
+
+    public void setNewBalance(BigDecimal newBalance) {
+        if (newBalance != null) {
+            this.balance = newBalance;
+        }
+        this.balance = BigDecimal.ZERO;
+    }
 }
 
 

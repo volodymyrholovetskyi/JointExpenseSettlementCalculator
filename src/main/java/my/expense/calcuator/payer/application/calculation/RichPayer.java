@@ -9,7 +9,7 @@ import java.util.List;
 
 @Value
 @Builder
-public class ExtendedPayer {
+public class RichPayer {
 
     String firstName;
     String lastName;

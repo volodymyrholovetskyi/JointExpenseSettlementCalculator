@@ -21,7 +21,7 @@ public class SettlementService {
             new CalculateCostDebtStrategy()
     );
 
-    public List<SettlementPayer> costExpense(List<Payer> payers) {
+    public List<SettlementPayer> calculateExpenses(List<Payer> payers) {
         settlementPayers.clear();
         toSettlementPayer(payers);
         strategies.stream().forEach(strategy -> strategy.calculate(settlementPayers));
