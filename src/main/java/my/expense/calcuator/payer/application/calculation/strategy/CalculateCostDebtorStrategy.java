@@ -22,7 +22,6 @@ public class CalculateCostDebtorStrategy implements CalculateExpenseStrategy {
                     } else {
                         Debtor result = toDebtor(settlementPayers.get(i), settlementPayers.get(i).getBalance());
                         settlementPayer.addDebtor(result);
-//                        settlementPayers.get(i).setBalance(BigDecimal.ZERO);
                         settlementPayer.setZeroBalance();
                     }
                 }
@@ -39,25 +38,14 @@ public class CalculateCostDebtorStrategy implements CalculateExpenseStrategy {
     }
 
     private void reverse(BigDecimal balanceDifference, SettlementPayer otherPayer, SettlementPayer actualPayer) {
-//        actualPayer.setBalance(actualPayer.getBalance().subtract(balanceDifference));
-
         BigDecimal bigDecimal = subtractBalance(otherPayer.getBalance(), actualPayer.getBalance());
         actualPayer.setNewBalance(bigDecimal);
-
-//        BigDecimal balanceToByPickedUp = otherPayer.getBalance().subtract(balanceDifference);
-
         BigDecimal balanceToByPickedUp = subtractBalance(otherPayer.getBalance(), balanceDifference);
-
-//        BigDecimal subtractBalance = otherPayer.getBalance().subtract(balanceToByPickedUp);
-
         BigDecimal subtractBalance = subtractBalance(otherPayer.getBalance(), balanceToByPickedUp);
-
         Debtor debtor = toDebtor(otherPayer, balanceToByPickedUp);
         actualPayer.addDebtor(debtor);
-//        otherPayer.setBalance(subtractBalance);
         otherPayer.setNewBalance(subtractBalance);
     }
-
 
     private Debtor toDebtor(SettlementPayer settlementPayer, BigDecimal subtract) {
         return new Debtor(settlementPayer.getFirstName(),
