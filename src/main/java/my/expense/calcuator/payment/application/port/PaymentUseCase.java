@@ -15,6 +15,8 @@ public interface PaymentUseCase {
 
     UpdatePaymentResponse updatePayment(UpdatePaymentCommand command);
 
+    void deleteById(Long id);
+
 
     @Value
     @Builder

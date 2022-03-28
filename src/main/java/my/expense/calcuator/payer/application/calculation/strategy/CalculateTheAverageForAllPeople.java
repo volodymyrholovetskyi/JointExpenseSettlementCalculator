@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class CalculateTheAverageForAllPeople implements CalculateExpenseStrategy {
+class CalculateTheAverageForAllPeople implements CalculateExpenseStrategy {
 
     @Override
     public void calculate(List<SettlementPayer> settlementPayers) {

@@ -10,8 +10,6 @@ import lombok.Singular;
 import lombok.ToString;
 import my.expense.calcuator.event.domain.MeetingEvent;
 import my.expense.calcuator.jpa.BaseEntity;
-import my.expense.calcuator.payer.application.calculation.Debt;
-import my.expense.calcuator.payer.application.calculation.Debtor;
 import my.expense.calcuator.payment.domain.Payment;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -20,9 +18,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
@@ -100,11 +96,11 @@ public class Payer extends BaseEntity {
         event = null;
     }
 
-    public void addPayment(Payment payment){
+    public void addPayment(Payment payment) {
         payments.add(payment);
     }
 
-    public BigDecimal totalCost(){
+    public BigDecimal totalCost() {
         return payments.stream()
                 .map(Payment::getPayment)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

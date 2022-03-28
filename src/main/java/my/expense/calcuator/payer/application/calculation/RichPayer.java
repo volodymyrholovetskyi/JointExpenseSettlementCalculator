@@ -2,6 +2,8 @@ package my.expense.calcuator.payer.application.calculation;
 
 import lombok.Builder;
 import lombok.Value;
+import my.expense.calcuator.payer.application.calculation.strategy.SettlementPayer.Debt;
+import my.expense.calcuator.payer.application.calculation.strategy.SettlementPayer.Debtor;
 import my.expense.calcuator.payment.domain.Payment;
 
 import java.math.BigDecimal;
@@ -18,5 +20,6 @@ public class RichPayer {
     List<Debtor> debtors;
     BigDecimal totalCost;
     BigDecimal average;
+    BigDecimal balance;
 
 }

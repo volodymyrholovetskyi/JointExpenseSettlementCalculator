@@ -2,8 +2,7 @@ package my.expense.calcuator.payer.application.calculation.strategy;
 
 import lombok.Builder;
 import lombok.Data;
-import my.expense.calcuator.payer.application.calculation.Debt;
-import my.expense.calcuator.payer.application.calculation.Debtor;
+import lombok.Value;
 import my.expense.calcuator.payment.domain.Payment;
 
 import java.math.BigDecimal;

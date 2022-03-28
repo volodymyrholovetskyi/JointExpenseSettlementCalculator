@@ -1,13 +1,13 @@
 package my.expense.calcuator.payer.application.calculation.strategy;
 
-import my.expense.calcuator.payer.application.calculation.Debt;
-import my.expense.calcuator.payer.application.calculation.Debtor;
+import my.expense.calcuator.payer.application.calculation.strategy.SettlementPayer.Debt;
+import my.expense.calcuator.payer.application.calculation.strategy.SettlementPayer.Debtor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
 
-public class CalculateCostDebtStrategy implements CalculateExpenseStrategy {
+class CalculateCostDebtStrategy implements CalculateExpenseStrategy {
 
     @Override
     public void calculate(List<SettlementPayer> settlementPayers) {
@@ -17,7 +17,7 @@ public class CalculateCostDebtStrategy implements CalculateExpenseStrategy {
                 for (Debtor debtor : settlementPayer.getDebtors()) {
                     Optional<SettlementPayer> byNameAndLastName = findByNameAndLastName(debtor.getFirstName(), debtor.getLastName(), settlementPayers);
                     if (byNameAndLastName.isPresent()) {
-                        update(debtor, byNameAndLastName.get(), settlementPayer);
+                        updateSettlementPayer(debtor, byNameAndLastName.get(), settlementPayer);
                     }
                 }
             }
@@ -35,9 +35,13 @@ public class CalculateCostDebtStrategy implements CalculateExpenseStrategy {
         return Optional.empty();
     }
 
-    private void update(Debtor debtor, SettlementPayer... settlementPayer) {
+    private void updateSettlementPayer(Debtor debtor, SettlementPayer... settlementPayer) {
         SettlementPayer actual = settlementPayer[1];
-        Debt debt = new Debt(actual.getFirstName(), actual.getLastName(), debtor.getPayment());
+        Debt debt = Debt.builder()
+                .firstName(actual.getFirstName())
+                .lastName(actual.getLastName())
+                .payment(debtor.getPayment())
+                .build();
         SettlementPayer target = settlementPayer[0];
         target.addDebt(debt);
 

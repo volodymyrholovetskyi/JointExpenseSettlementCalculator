@@ -5,7 +5,7 @@ import my.expense.calcuator.payment.domain.Payment;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class CalculateTotalCostOfOnePerson implements CalculateExpenseStrategy {
+class CalculateTotalCostOfOnePerson implements CalculateExpenseStrategy {
 
     @Override
     public void calculate(List<SettlementPayer> settlementPayers) {

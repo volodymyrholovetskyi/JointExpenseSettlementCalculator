@@ -11,8 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class SettlementService {
 
-    private List<SettlementPayer> settlementPayers;
-
     private final List<CalculateExpenseStrategy> strategies = Arrays.asList(
             new CalculateTotalCostOfOnePerson(),
             new CalculateTheAverageForAllPeople(),
@@ -20,6 +18,8 @@ public class SettlementService {
             new CalculateCostDebtorStrategy(),
             new CalculateCostDebtStrategy()
     );
+
+    private final List<SettlementPayer> settlementPayers;
 
     public List<SettlementPayer> calculateExpenses(List<Payer> payers) {
         settlementPayers.clear();

@@ -36,7 +36,8 @@ public class CalculateService {
                     settlementPayer.getDebts(),
                     settlementPayer.getDebtors(),
                     settlementPayer.getTotalCost(),
-                    settlementPayer.getAverage()
+                    settlementPayer.getAverage(),
+                    settlementPayer.getBalance()
             ));
         }
     }

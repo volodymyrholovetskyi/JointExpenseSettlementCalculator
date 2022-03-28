@@ -1,11 +1,11 @@
 package my.expense.calcuator.payer.application.calculation.strategy;
 
-import my.expense.calcuator.payer.application.calculation.Debtor;
+import my.expense.calcuator.payer.application.calculation.strategy.SettlementPayer.Debtor;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public class CalculateCostDebtorStrategy implements CalculateExpenseStrategy {
+class CalculateCostDebtorStrategy implements CalculateExpenseStrategy {
 
 
     @Override

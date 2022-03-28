@@ -9,9 +9,7 @@ import my.expense.calcuator.payment.domain.Payment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,6 +51,11 @@ public class PaymentService implements PaymentUseCase {
                     return UpdatePaymentResponse.SUCCESS;
                 }).orElseGet(() -> new UpdatePaymentResponse(false,
                         Collections.singletonList("Payment not fond with id: " + command.getId())));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
     }
 
     private Payment updateFields(UpdatePaymentCommand command, Payment payment) {

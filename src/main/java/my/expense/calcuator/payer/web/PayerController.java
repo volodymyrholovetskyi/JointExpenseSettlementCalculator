@@ -8,8 +8,10 @@ import my.expense.calcuator.payer.application.port.PayerUseCase.UpdatePayerComma
 import my.expense.calcuator.payer.application.port.PayerUseCase.UpdatePayerResponse;
 import my.expense.calcuator.payer.application.port.QueryPayerUseCase;
 import my.expense.calcuator.payer.domain.Payer;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,12 +76,17 @@ public class PayerController {
         }
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void deletePayer(@PathVariable Long id){
+        payerUseCase.remoteById(id);
+    }
+
    private interface CreateValidation {
     }
 
     private interface UpdateValidation {
     }
-
 
     @Data
     private static class RestPayerCommand {
