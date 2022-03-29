@@ -2,8 +2,7 @@ package my.expense.calcuator.payer.application.calculation.strategy;
 
 import lombok.Builder;
 import lombok.Data;
-import my.expense.calcuator.payer.application.calculation.Debt;
-import my.expense.calcuator.payer.application.calculation.Debtor;
+import lombok.Value;
 import my.expense.calcuator.payment.domain.Payment;
 
 import java.math.BigDecimal;
@@ -44,11 +43,29 @@ public class SettlementPayer {
         this.balance = BigDecimal.ZERO;
     }
 
-    public void setNewBalance(BigDecimal newBalance) {
-        if (newBalance != null) {
-            this.balance = newBalance;
+    public void newBalance(BigDecimal newBalance) {
+        if (newBalance == null) {
+            this.balance = BigDecimal.ZERO;
         }
-        this.balance = BigDecimal.ZERO;
+        this.balance = newBalance;
+    }
+
+    @Value
+    @Builder
+    public static class Debtor {
+
+        String firstName;
+        String lastName;
+        BigDecimal payment;
+    }
+
+    @Value
+    @Builder
+    public static class Debt {
+
+        String firstName;
+        String lastName;
+        BigDecimal payment;
     }
 }
 

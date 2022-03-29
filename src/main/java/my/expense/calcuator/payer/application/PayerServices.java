@@ -58,6 +58,11 @@ public class PayerServices implements PayerUseCase {
                         Collections.singletonList("Payer not fond with id: " + command.getId())));
     }
 
+    @Override
+    public void remoteById(Long id) {
+        repository.deleteById(id);
+    }
+
 
     private Payer updateFields(UpdatePayerCommand command, Payer payer) {
         if (command.getFirstName() != null) {

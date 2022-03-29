@@ -15,6 +15,8 @@ public interface PayerUseCase {
 
     UpdatePayerResponse updatePayer(UpdatePayerCommand command);
 
+    void remoteById(Long id);
+
     @Value
     @Builder
     @AllArgsConstructor

@@ -3,7 +3,7 @@ package my.expense.calcuator.payer.application.calculation.strategy;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class CalculateBalanceStrategy implements CalculateExpenseStrategy {
+class CalculateBalanceStrategy implements CalculateExpenseStrategy {
 
     @Override
     public void calculate(List<SettlementPayer> settlementPayers) {
