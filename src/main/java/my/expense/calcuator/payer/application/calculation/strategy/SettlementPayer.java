@@ -43,11 +43,29 @@ public class SettlementPayer {
         this.balance = BigDecimal.ZERO;
     }
 
-    public void setNewBalance(BigDecimal newBalance) {
-        if (newBalance != null) {
-            this.balance = newBalance;
+    public void newBalance(BigDecimal newBalance) {
+        if (newBalance == null) {
+            this.balance = BigDecimal.ZERO;
         }
-        this.balance = BigDecimal.ZERO;
+        this.balance = newBalance;
+    }
+
+    @Value
+    @Builder
+    public static class Debtor {
+
+        String firstName;
+        String lastName;
+        BigDecimal payment;
+    }
+
+    @Value
+    @Builder
+    public static class Debt {
+
+        String firstName;
+        String lastName;
+        BigDecimal payment;
     }
 }
 

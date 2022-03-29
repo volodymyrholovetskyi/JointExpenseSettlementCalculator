@@ -81,6 +81,12 @@ public class PaymentController {
 
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    void deletePayment(@PathVariable Long id){
+        paymentUseCase.deleteById(id);
+    }
+
     private URI createPaymentUri(Payment payment) {
         return ServletUriComponentsBuilder
                 .fromCurrentRequestUri().path("/" + payment.getId().toString()).build().toUri();

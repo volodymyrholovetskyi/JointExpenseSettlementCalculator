@@ -16,40 +16,44 @@ class CalculateCostDebtorStrategy implements CalculateExpenseStrategy {
                         && settlementPayers.get(i).getBalance().compareTo(BigDecimal.ZERO) > 0) {
 
                     BigDecimal subtract = subtractBalance(settlementPayers.get(i).getBalance(), settlementPayer.getBalance());
-                    settlementPayer.setNewBalance(subtract);
                     if (subtract.compareTo(BigDecimal.ZERO) > 0) {
-                        reverse(subtract, settlementPayers.get(i), settlementPayer);
+                        reverse(settlementPayers.get(i), settlementPayer);
                     } else {
                         Debtor result = toDebtor(settlementPayers.get(i), settlementPayers.get(i).getBalance());
                         settlementPayer.addDebtor(result);
-                        settlementPayer.setZeroBalance();
+                        settlementPayer.newBalance(subtract);
+                        settlementPayers.get(i).setZeroBalance();
                     }
                 }
             }
         }
     }
 
+    private void reverse(SettlementPayer otherPayer, SettlementPayer actualPayer) {
+        BigDecimal calculateAnotherPayer = subtractBalance(otherPayer.getBalance(), actualPayer.getBalance());
+        BigDecimal calculateTheDebt = subtractBalance(otherPayer.getBalance(), calculateAnotherPayer);
+        BigDecimal calculateActualPayer = subtractBalance(calculateTheDebt, actualPayer.getBalance());
+        Debtor debtor = toDebtor(otherPayer, calculateTheDebt);
+        actualPayer.addDebtor(debtor);
+        actualPayer.newBalance(calculateActualPayer);
+        otherPayer.newBalance(calculateAnotherPayer);
+    }
+
     private BigDecimal subtractBalance(BigDecimal otherBalance, BigDecimal actualBalance) {
         if (actualBalance.compareTo(BigDecimal.ZERO) < 0) {
-            BigDecimal positiveBalance = BigDecimal.valueOf(0).subtract(actualBalance);
-            return otherBalance.subtract(positiveBalance);
+            BigDecimal balance = BigDecimal.valueOf(0).subtract(actualBalance);
+            return otherBalance.subtract(balance);
         }
         return otherBalance.subtract(actualBalance);
     }
 
-    private void reverse(BigDecimal balanceDifference, SettlementPayer otherPayer, SettlementPayer actualPayer) {
-        BigDecimal bigDecimal = subtractBalance(otherPayer.getBalance(), actualPayer.getBalance());
-        actualPayer.setNewBalance(bigDecimal);
-        BigDecimal balanceToByPickedUp = subtractBalance(otherPayer.getBalance(), balanceDifference);
-        BigDecimal subtractBalance = subtractBalance(otherPayer.getBalance(), balanceToByPickedUp);
-        Debtor debtor = toDebtor(otherPayer, balanceToByPickedUp);
-        actualPayer.addDebtor(debtor);
-        otherPayer.setNewBalance(subtractBalance);
-    }
-
-    private Debtor toDebtor(SettlementPayer settlementPayer, BigDecimal subtract) {
-        return new Debtor(settlementPayer.getFirstName(),
-                settlementPayer.getLastName(), subtract
-        );
+    private Debtor toDebtor(SettlementPayer settlementPayer, BigDecimal calculateTheDebt) {
+        return Debtor.builder()
+                .firstName(settlementPayer.getFirstName())
+                .lastName(settlementPayer.getLastName())
+                .payment(calculateTheDebt)
+                .build();
     }
 }
+
+
