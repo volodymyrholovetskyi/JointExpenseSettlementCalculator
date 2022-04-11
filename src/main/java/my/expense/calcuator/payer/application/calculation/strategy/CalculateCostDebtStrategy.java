@@ -10,18 +10,20 @@ import java.util.Optional;
 class CalculateCostDebtStrategy implements CalculateExpenseStrategy {
 
     @Override
-    public void calculate(List<SettlementPayer> settlementPayers) {
+    public List<SettlementPayer> calculate(List<SettlementPayer> settlementPayers) {
         for (SettlementPayer settlementPayer : settlementPayers) {
             if (settlementPayer.getDebtors() != null) {
 
                 for (Debtor debtor : settlementPayer.getDebtors()) {
-                    Optional<SettlementPayer> byNameAndLastName = findByNameAndLastName(debtor.getFirstName(), debtor.getLastName(), settlementPayers);
+                    Optional<SettlementPayer> byNameAndLastName = findByNameAndLastName(debtor.getFirstName(),
+                            debtor.getLastName(), settlementPayers);
                     if (byNameAndLastName.isPresent()) {
                         updateSettlementPayer(debtor, byNameAndLastName.get(), settlementPayer);
                     }
                 }
             }
         }
+        return settlementPayers;
     }
 
     private Optional<SettlementPayer> findByNameAndLastName(String firstName, String lastName,

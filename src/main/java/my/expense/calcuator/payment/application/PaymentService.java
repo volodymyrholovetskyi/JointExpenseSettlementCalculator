@@ -1,6 +1,10 @@
 package my.expense.calcuator.payment.application;
 
 import lombok.AllArgsConstructor;
+import my.expense.calcuator.event.db.MeetingEventJpaRepository;
+import my.expense.calcuator.event.domain.MeetingEvent;
+import my.expense.calcuator.event.domain.MeetingEventStatus;
+import my.expense.calcuator.event.domain.UpdateStatusResult;
 import my.expense.calcuator.payer.db.PayerJpaRepository;
 import my.expense.calcuator.payer.domain.Payer;
 import my.expense.calcuator.payment.application.port.PaymentUseCase;
@@ -12,12 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.Optional;
 
+import static my.expense.calcuator.event.domain.MeetingEventStatus.*;
+
 @Service
 @AllArgsConstructor
 public class PaymentService implements PaymentUseCase {
 
     private final PaymentJpaRepository repository;
     private final PayerJpaRepository payerJpaRepository;
+    private final MeetingEventJpaRepository eventJpaRepository;
 
     @Override
     @Transactional
@@ -40,6 +47,18 @@ public class PaymentService implements PaymentUseCase {
     private void toUpdate(Long id, Payment payment) {
         Payer payer = fetchPayerById(id);
         payer.addPayment(payment);
+        Long idEvent = payer.getEvent().getId();
+        MeetingEventStatus status = payer.getEvent().getStatus();
+        if (status == SETTLED) {
+            updateStatus(idEvent);
+        }
+    }
+
+    private void updateStatus(Long id) {
+        MeetingEvent meetingEvent = fetchMeetingEventById(id);
+        MeetingEventStatus status = meetingEvent.getStatus();
+        UpdateStatusResult statusResult = SETTLED.updateStatus(status);
+        meetingEvent.updateStatus(statusResult);
     }
 
     @Override
@@ -73,5 +92,11 @@ public class PaymentService implements PaymentUseCase {
     private Payer fetchPayerById(Long id) {
         Optional<Payer> payer = payerJpaRepository.findById(id);
         return payer.orElseThrow(() -> new IllegalArgumentException("Unable to find payer by id: " + id));
+    }
+
+
+    private MeetingEvent fetchMeetingEventById(Long eventId) {
+        Optional<MeetingEvent> payer = eventJpaRepository.findById(eventId);
+        return payer.orElseThrow(() -> new IllegalArgumentException("Unable to find event with id: " + eventId));
     }
 }

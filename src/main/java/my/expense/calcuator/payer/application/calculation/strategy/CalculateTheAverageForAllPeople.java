@@ -7,7 +7,7 @@ import java.util.List;
 class CalculateTheAverageForAllPeople implements CalculateExpenseStrategy {
 
     @Override
-    public void calculate(List<SettlementPayer> settlementPayers) {
+    public List<SettlementPayer> calculate(List<SettlementPayer> settlementPayers) {
 
         for (SettlementPayer payer : settlementPayers) {
             BigDecimal reduce = settlementPayers.stream()
@@ -16,6 +16,7 @@ class CalculateTheAverageForAllPeople implements CalculateExpenseStrategy {
 
             payer.setAverage(getAverage(reduce, settlementPayers.size()));
         }
+        return settlementPayers;
     }
 
     private BigDecimal getAverage(BigDecimal reduce, int size) {

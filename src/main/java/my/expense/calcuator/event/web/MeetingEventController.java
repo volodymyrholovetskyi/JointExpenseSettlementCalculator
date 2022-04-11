@@ -6,6 +6,7 @@ import my.expense.calcuator.event.application.port.MeetingEventUseCase;
 import my.expense.calcuator.event.application.port.MeetingEventUseCase.CreateMeetingEventCommand;
 import my.expense.calcuator.event.application.port.MeetingEventUseCase.UpdateMeetingEventCommand;
 import my.expense.calcuator.event.domain.MeetingEvent;
+import my.expense.calcuator.event.domain.MeetingEventStatus;
 import my.expense.calcuator.payer.domain.Payer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,13 +99,14 @@ public class MeetingEventController {
 
         private List<Payer> payers;
 
+        private MeetingEventStatus status;
 
         CreateMeetingEventCommand toCreateCommand() {
             return new CreateMeetingEventCommand(name, location);
         }
 
         UpdateMeetingEventCommand toUpdateCommand(Long id) {
-            return new UpdateMeetingEventCommand(id, name, location, payers);
+            return new UpdateMeetingEventCommand(id, name, location, payers, status);
         }
     }
 }

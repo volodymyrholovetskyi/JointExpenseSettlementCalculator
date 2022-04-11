@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class SettlementService {
+public class SettlementFacade {
 
     private final List<CalculateExpenseStrategy> strategies = Arrays.asList(
             new CalculateTotalCostOfOnePerson(),

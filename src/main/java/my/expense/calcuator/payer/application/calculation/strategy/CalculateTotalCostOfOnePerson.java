@@ -8,7 +8,7 @@ import java.util.List;
 class CalculateTotalCostOfOnePerson implements CalculateExpenseStrategy {
 
     @Override
-    public void calculate(List<SettlementPayer> settlementPayers) {
+    public List<SettlementPayer> calculate(List<SettlementPayer> settlementPayers) {
 
         for (SettlementPayer payer : settlementPayers) {
             BigDecimal totalCost = payer.getPayments().stream()
@@ -19,5 +19,6 @@ class CalculateTotalCostOfOnePerson implements CalculateExpenseStrategy {
                 payer.setTotalCost(totalCost);
             } else payer.setTotalCost(BigDecimal.ZERO);
         }
+        return settlementPayers;
     }
 }

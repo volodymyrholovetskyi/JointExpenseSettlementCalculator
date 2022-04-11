@@ -3,15 +3,17 @@ package my.expense.calcuator.payer.application;
 import lombok.AllArgsConstructor;
 import my.expense.calcuator.event.db.MeetingEventJpaRepository;
 import my.expense.calcuator.event.domain.MeetingEvent;
+import my.expense.calcuator.event.domain.UpdateStatusResult;
 import my.expense.calcuator.payer.application.port.PayerUseCase;
 import my.expense.calcuator.payer.db.PayerJpaRepository;
 import my.expense.calcuator.payer.domain.Payer;
-import my.expense.calcuator.payment.domain.Payment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Optional;
+
+import static my.expense.calcuator.event.domain.MeetingEventStatus.NEW;
 
 @Service
 @AllArgsConstructor
@@ -36,13 +38,20 @@ public class PayerServices implements PayerUseCase {
                 .email(command.getEmail())
                 .build();
         toUpdate(command.getEventId(), payer);
+
         return payer;
     }
 
     private void toUpdate(Long id, Payer payer) {
         MeetingEvent meetingEvent = fetchMeetingEventById(id);
         payer.removeEvent();
+        if (meetingEvent.status == NEW) updateStatus(meetingEvent);
         payer.addEvent(meetingEvent);
+    }
+
+    private void updateStatus(MeetingEvent event) {
+        UpdateStatusResult updateStatusResult = NEW.updateStatus(event.getStatus());
+        event.updateStatus(updateStatusResult);
     }
 
     @Override

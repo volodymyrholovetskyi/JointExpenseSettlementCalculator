@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.Singular;
 import lombok.ToString;
 import my.expense.calcuator.event.domain.MeetingEvent;
+import my.expense.calcuator.event.domain.MeetingEventStatus;
 import my.expense.calcuator.jpa.BaseEntity;
 import my.expense.calcuator.payment.domain.Payment;
 import org.hibernate.annotations.Fetch;
@@ -21,8 +22,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
@@ -31,7 +30,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @Setter
@@ -67,9 +65,6 @@ public class Payer extends BaseEntity {
     @Fetch(FetchMode.SUBSELECT)
     private List<Payment> payments = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    public PayerStatus status = PayerStatus.NOT_SETTLED;
-
     @CreatedDate
     private LocalDateTime createAt;
 
@@ -77,11 +72,10 @@ public class Payer extends BaseEntity {
     private LocalDateTime updateAt;
 
     @Builder
-    public Payer(String firstName, String lastName, String email, PayerStatus status, boolean message) {
+    public Payer(String firstName, String lastName, String email, MeetingEventStatus status, boolean message) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.status = Optional.ofNullable(status).orElse(this.status);
         this.isMessage = message;
     }
 

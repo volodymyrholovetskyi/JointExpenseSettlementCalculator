@@ -62,7 +62,7 @@ public class MetingEventService implements MeetingEventUseCase {
     public UpdateMeetingEventResponse updateMeetingEvent(UpdateMeetingEventCommand command) {
         return repository.findById(command.getId())
                 .map(meetingEvent -> {
-                    var updateEvent = updateFields(command, meetingEvent);
+                    updateFields(command, meetingEvent);
                     return UpdateMeetingEventResponse.SUCCESS;
                 })
                 .orElseGet(() -> new UpdateMeetingEventResponse(false,

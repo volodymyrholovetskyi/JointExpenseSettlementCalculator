@@ -9,7 +9,7 @@ class CalculateCostDebtorStrategy implements CalculateExpenseStrategy {
 
 
     @Override
-    public void calculate(List<SettlementPayer> settlementPayers) {
+    public List<SettlementPayer> calculate(List<SettlementPayer> settlementPayers) {
         for (SettlementPayer settlementPayer : settlementPayers) {
             for (int i = 0; i < settlementPayers.size(); i++) {
                 if (settlementPayer.getBalance().compareTo(BigDecimal.ZERO) < 0
@@ -27,6 +27,7 @@ class CalculateCostDebtorStrategy implements CalculateExpenseStrategy {
                 }
             }
         }
+        return settlementPayers;
     }
 
     private void reverse(SettlementPayer otherPayer, SettlementPayer actualPayer) {

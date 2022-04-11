@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
 import my.expense.calcuator.event.domain.MeetingEvent;
+import my.expense.calcuator.event.domain.MeetingEventStatus;
 import my.expense.calcuator.payer.domain.Payer;
 
 import javax.validation.Valid;
@@ -33,6 +34,7 @@ public interface MeetingEventUseCase {
 
 
     @Value
+    @Builder
     class CreateMeetingEventCommand {
         String name;
         String location;
@@ -47,6 +49,7 @@ public interface MeetingEventUseCase {
         String name;
         String location;
         List<Payer> payers;
+        MeetingEventStatus status;
     }
 
     @Value
